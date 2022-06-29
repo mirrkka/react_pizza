@@ -18,12 +18,12 @@ function PizzaBlock(props){
         <div className="pizza-block__selector">
           <ul>
           {
-                props.types.map((typeId) => <li onClick = {() => {setActiveType(typeId)}} className = {activeType === typeId ? 'active': ''}>{typeNames[typeId]}</li>)
+                props.types.map((typeId) => <li key={typeId} onClick = {() => {setActiveType(typeId)}} className = {activeType === typeId ? 'active': ''}>{typeNames[typeId]}</li>)
             }
           </ul>
           <ul>
             {
-                props.sizes.map((size, index) => <li onClick = {() => {setActiveSize(index)}} className = {activeSize === index ? 'active': ''}>{size} см</li>)
+                props.sizes.map((size, index) => <li key={index} onClick = {() => {setActiveSize(index)}} className = {activeSize === index ? 'active': ''}>{size} см</li>)
             }
           </ul>
         </div>
