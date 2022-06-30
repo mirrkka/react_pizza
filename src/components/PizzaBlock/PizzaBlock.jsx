@@ -8,7 +8,7 @@ function PizzaBlock(props){
     const typeNames = ['тонкое', 'традиционное']
 
     return (
-        <div classNameName="pizza-block">
+        <div className="pizza-block">
         <img
           className="pizza-block__image"
           src={props.imageUrl}
