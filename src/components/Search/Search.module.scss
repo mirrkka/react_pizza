@@ -1,0 +1,23 @@
+.root {
+    position: relative;
+}
+
+.input {
+    border: 1px solid grey;
+    padding: 8px 15px;
+    padding-left: 42px;
+    width: 400px;
+    border-radius: 12px;
+    font-size: 16px;
+
+}
+
+.img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.3;
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    cursor: pointer;
+}
