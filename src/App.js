@@ -10,10 +10,13 @@ import {
 } from "react-router-dom";
 import {useState} from 'react'
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 export const searchContex = React.createContext('')
 
 function App() {
+
+ 
 
   const [searchValue, setSearchValue] = useState('')
 

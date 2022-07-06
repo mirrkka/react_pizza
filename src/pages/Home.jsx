@@ -6,15 +6,27 @@ import {useState, useEffect} from 'react'
 import Pagination from '../components/Pagination/Pagination'
 import {searchContex} from '../App'
 import { useContext } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
+import {setCategoryId} from '../redux/slices/filterSlice'
 
 
 function Home() {
+
+    const categoryId = useSelector((state) => state.filter.categoryId)
+    const dispatch = useDispatch()
+    const sortType = useSelector((state) => state.filter.sort.sortProperty)
+
     const {searchValue} = useContext(searchContex)
     const [items, setItems] = useState([])
     const [isLoading, setLoading] = useState(true)
-    const [categoryId, setCategoryId] = useState(0);
-    const [sortType, setSortType] = useState({name: 'популярности', sortProperty: 'rating'})
+    
+    
     const [currentPage, setCurrentPage] = useState(1)
+
+    const onChangeCategory = (id) => {
+      dispatch(setCategoryId(id))
+
+    }
 
 
     const pizzas = items.map((obj) =>  <PizzaBlock key={obj.id} {...obj}/>)
@@ -23,7 +35,7 @@ function Home() {
       setLoading(true)
 
       const category = categoryId > 0 ? `category=${categoryId}`: ''
-      const sortBy = sortType.sortProperty
+      const sortBy = sortType
       const search = searchValue ? `&search=${searchValue}`: ''
 
       fetch(`https://62ac4effbd0e5d29af1fbb78.mockapi.io/items?&page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=desk${search}`)
@@ -41,8 +53,8 @@ function Home() {
     return (
         <div className="container">
         <div className="content__top">
-        <Categories value={categoryId} onClickCategory = {(i) => {setCategoryId(i)}}/>
-        <Sort value={sortType} onChangeSort = {(i) => {setSortType(i)}}/>
+        <Categories value={categoryId} onClickCategory={onChangeCategory}/>
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
