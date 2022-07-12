@@ -7,7 +7,8 @@ import Pagination from '../components/Pagination/Pagination'
 import {searchContex} from '../App'
 import { useContext } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
-import {setCategoryId} from '../redux/slices/filterSlice'
+import {setCategoryId, setCurrentPage} from '../redux/slices/filterSlice'
+import axios from 'axios'
 
 
 function Home() {
@@ -15,17 +16,22 @@ function Home() {
     const categoryId = useSelector((state) => state.filter.categoryId)
     const dispatch = useDispatch()
     const sortType = useSelector((state) => state.filter.sort.sortProperty)
+    const currentPage = useSelector((state) => state.filter.currentPage)
 
     const {searchValue} = useContext(searchContex)
     const [items, setItems] = useState([])
     const [isLoading, setLoading] = useState(true)
     
     
-    const [currentPage, setCurrentPage] = useState(1)
+    
 
     const onChangeCategory = (id) => {
       dispatch(setCategoryId(id))
 
+    }
+
+    const onChangePage = (number) => {
+      dispatch(setCurrentPage(number))
     }
 
 
@@ -38,15 +44,17 @@ function Home() {
       const sortBy = sortType
       const search = searchValue ? `&search=${searchValue}`: ''
 
-      fetch(`https://62ac4effbd0e5d29af1fbb78.mockapi.io/items?&page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=desk${search}`)
-      .then((res) => {
-        return res.json()
-      })
-      .then((arr) => {
-        setItems(arr)
-        setLoading(false)
-      })
+
+
+      axios.get(`https://62ac4effbd0e5d29af1fbb78.mockapi.io/items?&page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=desk${search}`)
+      .then((res) => {setItems(res.data)
+        setLoading(false)})
       window.scrollTo(0, 0)
+
+
+
+
+
     },[categoryId, sortType, searchValue, currentPage])
 
 
@@ -65,7 +73,7 @@ function Home() {
             
         }
       </div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)}/>
+      <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
       </div>
 
 
